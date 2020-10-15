@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Traits\ApiResponser;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class GalleryController extends Controller
 {
@@ -63,7 +65,7 @@ class GalleryController extends Controller
 
         $path = strtolower($rules['name']);
 
-        // Vytvorí novú galeériu do databázy
+        // Vytvorí novú galériu do databázy
         $gallery = DB::insert('insert into galleries (name, path) values (?, ?)', [$rules['name'], $path]);
 
         // return, vráti response hodnotu
@@ -74,9 +76,28 @@ class GalleryController extends Controller
 
     }
 
-    public function upload(){
+    public function upload(Request $request){
+        $validator = Validator::make($request->all(), [
+            'image' => 'required',
+        ]);
 
+        // Validator skontroluje či zlyhala podmienka pri nahravani suboru. Ak ano - vrati response s chybovou hlaškou.
+        if ($validator->fails()) {
+            return response()->json('Chybný request - nenašiel sa súbor pre upload.', Response::HTTP_NOT_FOUND);
+        }
+
+        $files = $request->file('image');
+        if(!empty($files)) {
+            foreach($files as $file) {
+                $image = Storage::put('public/images', file_get_contents($file));
+                $this->insert($image);
+            }
+        }
+
+        $path = $request->image->getClientOriginalName();
+        return response()->json(['uploaded' => ['path' => $path, 'fullpath' => $path]], Response::HTTP_OK);
     }
+
 
     /**
      * Funkcia odstráni galériu na základe zvolenej URL PATH $path /gallery/{path}
