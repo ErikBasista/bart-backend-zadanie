@@ -33,17 +33,17 @@ class GalleryController extends Controller
     }
 
     public function show($path){
-        //$item = DB::table('galleries')->where('path', $path)->first();
         $item = Gallery::all()->where('path', $path);
-        //return $this->successResponse($item);
-        //$images = DB::select('select name, path, fullpath')
-        //DB::table('images')->where('')
+        $id_gallery = DB::select('select * from galleries where path = ?', [$path]);
 
-        $imglist = Image::where('id_gallery', );
+        foreach($id_gallery as $value){
+            $get_id_of_gallery = $value->id;
+        }
 
+        $imglist = Image::all()->where('id_gallery', $get_id_of_gallery );
 
         // return, vráti response hodnotu
-        return response()->json( ['gallery' => $item, 'image' => $imglist], 200);
+        return response()->json( ['gallery' => $item, 'images' => $imglist], 200);
     }
 
     /**
