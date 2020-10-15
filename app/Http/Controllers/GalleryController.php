@@ -74,6 +74,10 @@ class GalleryController extends Controller
 
     }
 
+    public function upload(){
+
+    }
+
     public function delete(){
 
     }

@@ -25,9 +25,9 @@ $router->get('/gallery', 'GalleryController@index'); // Zobrazí všetky galéri
 $router->post('/gallery', 'GalleryController@insert'); // Vytvorí novú galériu. S tým, istým názvom vytvorí cestu
 
 // /gallery/{path}
-$router->get('/gallery/{path}', 'GalleryController@show');
-$router->delete('/gallery/{path}', 'GalleryController@index');
-$router->post('/gallery/{path}', 'GalleryController@index');
+$router->get('/gallery/{path}', 'GalleryController@show'); // Ukáže konkrétnu galériu a jej prisluchajúce obrázky
+$router->delete('/gallery/{path}', 'GalleryController@delete'); // Vymazanie zvolenej galérie, alebo obrázku
+$router->post('/gallery/{path}', 'GalleryController@upload'); // Upload obrázku do zvolenej galérie
 
 /*
 |--------------------------------------------------------------------------
@@ -35,4 +35,4 @@ $router->post('/gallery/{path}', 'GalleryController@index');
 |--------------------------------------------------------------------------
 */
 // /gallery
-$router->get('/images/{w}x{h}/{path}', 'ImageController@index');
+$router->get('/images/{w}x{h}/{path}', 'ImageController@render'); // Vygenerovanie náhľadového obrázku
