@@ -93,6 +93,7 @@ class GalleryController extends Controller
             return $this->successDelete($gallery);
         }
 
+        // Tento response pre všeobecnu chybu v exception sa nachádza v app/Exceptions/Handler.php:
         // return response()->json( ['message' => 'Nedefinovaná chyba'], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }

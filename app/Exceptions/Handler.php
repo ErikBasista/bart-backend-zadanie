@@ -54,10 +54,10 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         if ($exception instanceof HttpException) {
-            $code = $exception->getStatusCode();
-            $message = Response::$statusTexts[$code];
+            //$code = $exception->getStatusCode();
+            //$message = Response::$statusTexts[$code];
 
-            return $this->errorResponse($message, $code);
+            return $this->errorResponse(['message' => 'Nedefinovaná chyba'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         if ($exception instanceof ModelNotFoundException) {
