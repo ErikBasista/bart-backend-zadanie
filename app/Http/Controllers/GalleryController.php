@@ -77,12 +77,12 @@ class GalleryController extends Controller
     }
 
     public function upload(Request $request){
-        $validator = Validator::make($request->all(), [
+        $rules = Validator::make($request->all(), [
             'image' => 'required',
         ]);
 
         // Validator skontroluje či zlyhala podmienka pri nahravani suboru. Ak ano - vrati response s chybovou hlaškou.
-        if ($validator->fails()) {
+        if ($rules->fails()) {
             return response()->json('Chybný request - nenašiel sa súbor pre upload.', Response::HTTP_NOT_FOUND);
         }
 
@@ -94,8 +94,9 @@ class GalleryController extends Controller
             }
         }
 
-        $path = $request->image->getClientOriginalName();
-        return response()->json(['uploaded' => ['path' => $path, 'fullpath' => $path]], Response::HTTP_OK);
+        $name = substr($request->image->getClientOriginalName(), 0, -4);
+        $path = strtolower($request->image->getClientOriginalName());
+        return response()->json(['uploaded' => ['path' => $path, 'fullpath' => $path, 'name' => $name, 'modified' => '$modified']], Response::HTTP_OK);
     }
 
 
