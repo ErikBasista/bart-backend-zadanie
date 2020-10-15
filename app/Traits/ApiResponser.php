@@ -19,7 +19,7 @@ trait ApiResponser
     }
 
     public function successDelete($message, $code = Response::HTTP_OK){
-        return response()->json(['chyba' => 'Galéria bola úspešne vymazaná'], $code);
+        return response()->json(['message' => 'Galéria bola úspešne vymazaná'], $code);
     }
 
     /**

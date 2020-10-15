@@ -78,9 +78,14 @@ class GalleryController extends Controller
 
     }
 
+    /**
+     * Funkcia odstráni galériu na základe zvolenej URL PATH $path /gallery/{path}
+     * @param $path
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function delete($path){
         $gallery = Gallery::where('path', $path);
         $gallery->delete();
-        return $this->successResponse($gallery);
+        return $this->successDelete($gallery);
     }
 }
