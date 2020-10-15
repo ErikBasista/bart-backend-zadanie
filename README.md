@@ -18,7 +18,6 @@ Vytvoril som základný routing odkazujúci sa na metódy v Controlleri pre prá
 routes/web.php:
 ```
 // /gallery
-// /gallery
 $router->get('/gallery', 'GalleryController@index');            // Zobrazí všetky galérie do objektu "galleries"
 $router->post('/gallery', 'GalleryController@insert');          // Vytvorí novú galériu. S tým, istým názvom vytvorí cestu
 
@@ -33,6 +32,19 @@ $router->get('/images/{w}x{h}/{path}', 'ImageController@render'); // Vygenerovan
 Databáza je fiktívna, vytvorená cez migrations. Do databázy som uložil náhodne vygenerované údaje pomocou funkcie Factory/Seeder.
 
 - Vytvoril som prázdny súbor database.sqlite do ktorého som vložil náhodne vygenerované názvy galérie a obrázkov.
+- v .env konfig. súbore som nakonfiguroval odkaz na fiktívnu databázu na zvolený súbor database/database.sqlite
+```
+...
+DB_CONNECTION=sqlite
+#DB_HOST=127.0.0.1
+#DB_PORT=3306
+#DB_DATABASE=homestead
+#DB_USERNAME=homestead
+#DB_PASSWORD=secret
+...
+```
+
+Následne vytvorené migrations.
 ```
 php artisan make:migration create_gallery_table --create=galleries
 php artisan make:migration create_table_images --create=images
