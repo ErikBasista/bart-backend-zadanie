@@ -96,4 +96,29 @@ class GalleryController extends Controller
         // Tento response pre všeobecnu chybu v exception sa nachádza v app/Exceptions/Handler.php:
         // return response()->json( ['message' => 'Nedefinovaná chyba'], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
+
+    public function deleteImage($path){
+        $ImageFullPath = $this->renderFullPath($path);
+
+        $image = DB::select('select name from images where path=?', [$ImageFullPath]);
+
+        if ($image == null){
+            return $this->errorNotFound('obrázok neexistuje');
+        } else {
+            $image = Image::where('path', $path);
+            $image->delete();
+            return $this->successDelete('obrázok bol úspešne vymazaný');
+        }
+    }
+
+    /**
+     * Privatna funkcia, ktora zostaví relativnu URL k obrázku. Aby som mohol najsť obrazok v databaze a vymazať ho
+     * @param $path
+     * @return string
+     */
+    private function renderFullPath($path){
+        $imagePath = strtolower($path) . '.jpg';
+        $galleryPath = $path;
+        return $fullPath = $imagePath . $galleryPath;
+    }
 }
