@@ -19,23 +19,23 @@ trait ApiResponser
     }
 
     /**
-     * Response pre úspešne vymazanie galerie
+     * Response pre úspešne vymazanie galerie / obrazku
      * @param $message
      * @param int $code
      * @return \Illuminate\Http\JsonResponse
      */
     public function successDelete($message, $code = Response::HTTP_OK){
-        return response()->json(['message' => 'Galéria bola úspešne vymazaná'], $code);
+        return response()->json(['message' => $message], $code);
     }
 
     /**
-     * Response pre pokus o vymazanie galerie s chybou o nenajdení
+     * Response pre vypis chyby o nenajdenej galerii / obrazku
      * @param $message
      * @param int $code
      * @return \Illuminate\Http\JsonResponse
      */
-    public function notfoundDelete($message, $code = Response::HTTP_NOT_FOUND){
-        return response()->json(['message' => 'Galeria neexistuje'], $code);
+    public function errorNotFound($message, $code = Response::HTTP_NOT_FOUND){
+        return response()->json(['message' => $message], $code);
     }
 
     /**
