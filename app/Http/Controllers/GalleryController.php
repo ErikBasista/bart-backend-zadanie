@@ -85,7 +85,14 @@ class GalleryController extends Controller
      */
     public function delete($path){
         $gallery = Gallery::where('path', $path);
-        $gallery->delete();
-        return $this->successDelete($gallery);
+        $gallery = $gallery->delete();
+
+        if ($gallery == null){
+            return $this->notfoundDelete($gallery);
+        } else {
+            return $this->successDelete($gallery);
+        }
+
+        // return response()->json( ['message' => 'Nedefinovaná chyba'], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }
