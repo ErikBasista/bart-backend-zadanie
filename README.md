@@ -12,6 +12,7 @@ Laravel Lumen is a stunningly fast PHP micro-framework for building web applicat
 Zadanie som vypracoval v Lumen PHP Frameworku. Mikro-framework Laravelu. Tento mikro-framework považujem za vhodnú voľbu pre tvorbu API riešení v back-ende. Nakoľko sa v poslednom čase venujem práve vývoju API, rozhodol som sa pre tento framework, nakoľko obsahuje len tie najdôležitejšie metódy pre prácu malých projektov a nezaberá toľko kapacity navyše čo samotný Laravel. [Lumen website](https://lumen.laravel.com/docs).
 
 ## Postup a kroky vypracovania backend zadania
+### Route
 
 Vytvoril som základný routing odkazujúci sa na metódy v Controlleri pre prácu s galériami.
 
@@ -29,6 +30,7 @@ $router->post('/gallery/{path}', 'GalleryController@upload');   // Upload obráz
 // /gallery
 $router->get('/images/{w}x{h}/{path}', 'ImageController@render'); // Vygenerovanie náhľadového obrázku
 ```
+### Databáza sqlite
 Databáza je fiktívna, vytvorená cez migrations. Do databázy som uložil náhodne vygenerované údaje pomocou funkcie Factory/Seeder.
 
 - Vytvoril som prázdny súbor database.sqlite do ktorého som vložil náhodne vygenerované názvy galérie a obrázkov.

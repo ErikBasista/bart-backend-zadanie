@@ -78,7 +78,9 @@ class GalleryController extends Controller
 
     }
 
-    public function delete(){
-
+    public function delete($path){
+        $gallery = Gallery::where('path', $path);
+        $gallery->delete();
+        return $this->successResponse($gallery);
     }
 }

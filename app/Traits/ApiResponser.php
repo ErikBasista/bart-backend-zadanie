@@ -14,9 +14,12 @@ trait ApiResponser
      * @param  int $code
      * @return Illuminate\Http\JsonResponse
      */
-    public function successResponse($data, $code = Response::HTTP_OK)
-    {
+    public function successResponse($data, $code = Response::HTTP_OK){
         return response()->json(['galleries' => $data], $code);
+    }
+
+    public function successDelete($message, $code = Response::HTTP_OK){
+        return response()->json(['chyba' => 'Galéria bola úspešne vymazaná'], $code);
     }
 
     /**
