@@ -36,6 +36,40 @@ php artisan migrate
 ```
 - database/factories/ModelFactory.php   // zadefinoval som hodnoty, ktoré sa majú naplňať do sqlite databázy
 ```
+ModelFactory.php:
+
+use App\Gallery;
+use App\Image;
+use Faker\Generator as Faker;
+
+// vygeneruje hodnoty náhodných názvov a potrebných údajov databázy pre tabuľku galleries
+$factory->define(Gallery::class, function (Faker $faker) {
+    $name = $faker->country;
+    $path = rawurlencode($name);
+
+    return [
+        'path' => $path,
+        'name' => $name
+    ];
+});
+
+// vygeneruje hodnoty náhodných názvov a potrebných údajov databázy pre tabuľku images
+$factory->define(Image::class, function (Faker $faker) {
+
+    $name_of_image = $faker->randomElement(['Vylet', 'Plaz', 'Party', 'Tance', 'Jazda', 'Navsteva']);
+    $full_name_of_image = $name_of_image;
+    $full_name_of_image = $full_name_of_image .= '.jpg';
+
+    return [
+        'id_gallery' => $id_gallery = $faker->randomElement(['2', '4', '6', '8', '9', '10']),
+        'name' => $name_of_image,
+        'path' => $full_name_of_image = strtolower($full_name_of_image),
+        'fullpath' => 'path',
+    ];
+});
+```
+Následne príkaz pre spustenie naplnenia databázy do tabuliek:
+```
 php artisan db:seed
 ```
 
