@@ -97,6 +97,20 @@ class GalleryController extends Controller
 
     }
 
+    /**
+     * Funkcia pre nahrávanie obrázku do galérie. Obrázok sa nahráva fiktívne do databázy "database.sqlite"
+     * -------------------------------------------------------
+     * ZOZNAM PREMENNYCH V TEJTO FUNKCII:
+     * $name - Celkový názov nahraného súboru BEZ prípony .jpg
+     * $path - Celkový názov nahraného súboru S príponou .jpg
+     * $gallery_path - URL k priečinku galérii
+     * $fullpath - relativná URL ku galérii a obrázku vrátane ( napr.: Hawai/dovolenka.jpg )
+     * $id_gallery - id galériev tabuľke ako stlpec "id_gallery"
+     * -------------------------------------------------------
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function upload(Request $request){
         $rules = Validator::make($request->all(), [
             'image' => 'required',
@@ -117,7 +131,7 @@ class GalleryController extends Controller
             }
         }
 
-        // Potrebujem získať URL galérie z Requestu k zvolenej Galérii! Tak overim či galéria existuje alebo nie. Ak áno - uložim do nej obrázok
+        // Potrebujem získať URL galérie z Requestu zadanú používateľom! Tak overim či galéria existuje alebo nie. Ak áno - uložim do nej obrázok
         $gallery_path = $this->getPostUrlValue($_POST['gallery_path']);
 
         // Vytvorenie požadovaných reťazcov
@@ -128,11 +142,12 @@ class GalleryController extends Controller
         // Zistenie, či galeria existuje. Ak galeria neexistuje, vráti response 404
         $gallery_exists = DB::select('select name from galleries where path=?', [$gallery_path]);
 
-        // Ak sa nenašiel názor
+        // Ak sa nenašiel názov galérie v databáze:
         if ($gallery_exists == null){
             return response()->json('Galéria pre upload sa nenašla', Response::HTTP_NOT_FOUND);
         }
 
+        // Konštrukcia realtívnej URL galérie s obrázkom
         $fullpath = $gallery_path . '/' . $path;
 
         // Konečný upload obrázku do databázy
@@ -145,7 +160,7 @@ class GalleryController extends Controller
         DB::insert('insert into images (id_gallery, path, fullpath, name) values (?, ?, ?, ?)', [$id_gallery->id, $path, $fullpath, $name]);
 
 
-        // konečný response
+        // Konečný response
         return response()->json(['uploaded' => ['path' => $path, 'fullpath' => $fullpath, 'name' => $name, 'modified' => $modified]], Response::HTTP_OK);
     }
 
@@ -175,11 +190,11 @@ class GalleryController extends Controller
         $image = DB::select('select name from images where path=?', [$ImageFullPath]);
 
         if ($image == null){
-            return $this->errorNotFound('obrázok neexistuje');
+            return $this->errorNotFound('Obrázok neexistuje');
         } else {
             $image = Image::where('path', $path);
             $image->delete();
-            return $this->successDelete('obrázok bol úspešne vymazaný');
+            return $this->successDelete('Obrázok bol úspešne vymazaný');
         }
     }
 
@@ -203,9 +218,15 @@ class GalleryController extends Controller
         return $getValue = filter_var($value, FILTER_SANITIZE_URL);
     }
 
+    /**
+     * Funkcia získa ID číslo galérie. Na základe ID galérie vieme zistiť, do ktorej galérie chce používateľ nahrať obrázok
+     * @param $path
+     * @return mixed
+     */
     private function getIdGallery($path){
         $id_gallery = DB::select('select id from galleries where path=?', [$path]);
 
+        // z poľa musím vytiahnuť konkrétny string/číslo
         foreach ($id_gallery as $key){
             return $key;
         }
