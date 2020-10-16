@@ -50,7 +50,7 @@ class GalleryController extends Controller
         //$imglist = Image::all()->where('id_gallery', $get_id_of_gallery );
         $imglist = DB::select('select name, path, fullpath, updated_at from images where id_gallery=?', [$get_id_of_gallery]);
 
-        // Foreach slučka, ktorá znovu prepíše keys a zmení názov kľúča "updated_at" na "modified"
+        // Foreach slučka vyberie jednotlive kľuče poľa a znovu prepíše názvy keys, aby sa zmeníl názov kľúča "updated_at" na "modified"
         foreach ($imglist as $key){
             $path = $key->path;
             $fullpath = $key->fullpath;
