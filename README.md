@@ -11,6 +11,23 @@ Laravel Lumen is a stunningly fast PHP micro-framework for building web applicat
 
 Zadanie som vypracoval v Lumen PHP Frameworku. Mikro-framework Laravelu. Tento mikro-framework považujem za vhodnú voľbu pre tvorbu API riešení v back-ende. Nakoľko sa v poslednom čase venujem práve vývoju API, rozhodol som sa pre tento framework, nakoľko obsahuje len tie najdôležitejšie metódy pre prácu malých projektov a nezaberá toľko kapacity navyše čo samotný Laravel. [Lumen website](https://lumen.laravel.com/docs).
 
+## API dokumentácia
+### Výpis všetkých galérií z databázy
+
+Request:
+```
+metóda GET /gallery
+```
+Zodpovedný route:
+```
+$router->get('/gallery', 'GalleryController@index'); // Zobrazí všetky galérie do objektu "galleries"
+```
+Response výsledkov
+
+### Výpis všetkých galérií z databázy.
+### Vytvorenie novej galérie.
+### Zoznam obrázkov v galérii.
+
 ## Postup a kroky vypracovania backend zadania
 ### Použil som: IDE PhpStorm, Postman a Github
 - Počas testovania celej kvality naprogramovaného API som používal Postman pre odosielanie requestov

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Gallery;
 use App\Image;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Traits\ApiResponser;
@@ -106,6 +107,7 @@ class GalleryController extends Controller
      * $gallery_path - URL k priečinku galérii
      * $fullpath - relativná URL ku galérii a obrázku vrátane ( napr.: Hawai/dovolenka.jpg )
      * $id_gallery - id galériev tabuľke ako stlpec "id_gallery"
+     * $modified - získať timestamp
      * -------------------------------------------------------
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -150,20 +152,19 @@ class GalleryController extends Controller
         // Konštrukcia realtívnej URL galérie s obrázkom
         $fullpath = $gallery_path . '/' . $path;
 
-        // Konečný upload obrázku do databázy
-
-        $modified = time();
         $id_gallery = $this->getIdGallery($gallery_path);
         //var_dump($id_gallery->id); // VYMAZAT - testovacia premenna
 
-        // Uloženie údajov do databázy
-        DB::insert('insert into images (id_gallery, path, fullpath, name) values (?, ?, ?, ?)', [$id_gallery->id, $path, $fullpath, $name]);
+        // Získať dátum/čas
+        $modified = $this->getTimeStamp();
 
+        // Konečný upload obrázku do databázy
+        // Uloženie údajov do databázy
+        DB::insert('insert into images (id_gallery, path, fullpath, name, updated_at) values (?, ?, ?, ?, ?)', [$id_gallery->id, $path, $fullpath, $name, $modified]);
 
         // Konečný response
         return response()->json(['uploaded' => ['path' => $path, 'fullpath' => $fullpath, 'name' => $name, 'modified' => $modified]], Response::HTTP_OK);
     }
-
 
     /**
      * Funkcia odstráni galériu na základe zvolenej URL PATH $path /gallery/{path}
@@ -230,5 +231,21 @@ class GalleryController extends Controller
         foreach ($id_gallery as $key){
             return $key;
         }
+    }
+
+    private function getImageFullpath($path){
+        $modified = DB::select('select * from images where path=?', [$path]);
+
+        // z poľa musím vytiahnuť konkrétny string
+        foreach ($modified as $key){
+            return $key;
+        }
+    }
+
+    private function getTimeStamp(){
+        //$modified = time();
+        $date = new DateTime();
+        $modified = date("Y-m-d H:i:s", $date->getTimestamp());
+        return $modified;
     }
 }
