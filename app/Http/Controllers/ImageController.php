@@ -20,26 +20,9 @@ class ImageController extends Controller
         //
     }
 
-    public function index(Request $request){
+    public function render(Request $request){
         $allimages = Image::all();
         return $this->successResponse($allimages);
     }
 
-    public function show(){
-
-    }
-
-    public function insert(Request $request){
-        $rules = [
-            'name' => 'required|max:255',
-        ];
-    }
-
-    public function update(){
-
-    }
-
-    public function delete(){
-
-    }
 }

@@ -199,6 +199,8 @@ class GalleryController extends Controller
         }
     }
 
+
+
     /**
      * Privatna funkcia, ktora zostaví relativnu URL k obrázku. Aby som mohol najsť obrazok v databaze a vymazať ho
      * @param $path
@@ -233,6 +235,11 @@ class GalleryController extends Controller
         }
     }
 
+    /**
+     * Pomocná funkcia pre získanie fullpath obrázku v databáze / adresári
+     * @param $path
+     * @return mixed
+     */
     private function getImageFullpath($path){
         $modified = DB::select('select * from images where path=?', [$path]);
 
@@ -242,6 +249,10 @@ class GalleryController extends Controller
         }
     }
 
+    /**
+     * Pomocná funkcia pre vygenerovanie aktuálneho timestamp
+     * @return false|string
+     */
     private function getTimeStamp(){
         //$modified = time();
         $date = new DateTime();
