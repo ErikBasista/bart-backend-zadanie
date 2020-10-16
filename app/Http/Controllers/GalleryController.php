@@ -100,6 +100,7 @@ class GalleryController extends Controller
     public function upload(Request $request){
         $rules = Validator::make($request->all(), [
             'image' => 'required',
+            'gallery_path' => 'required'
         ]);
 
         // Validator skontroluje, či bol vložený subor do POST požiadavky na nahratie. Ak nie - vrati response s chybovou hlaškou.
@@ -116,21 +117,36 @@ class GalleryController extends Controller
             }
         }
 
+        // Potrebujem získať URL galérie z Requestu k zvolenej Galérii! Tak overim či galéria existuje alebo nie. Ak áno - uložim do nej obrázok
+        $gallery_path = $this->getPostUrlValue($_POST['gallery_path']);
+
         // Vytvorenie požadovaných reťazcov
         $name = substr($request->image->getClientOriginalName(), 0, -4);    // získa názov súboru bez prípony .jpg
         $path = strtolower($request->image->getClientOriginalName());                   // získa názov súboru s príponou .jpg so všetkými malými písmenami
         $galleryName = ucfirst($name);      // Prvé písmeno názvu obrázku zmeníme na veľké, aby sme v databáze našli rovnaký názov galérie, kam uložíme obrázok
 
         // Zistenie, či galeria existuje. Ak galeria neexistuje, vráti response 404
-        $gallery_exists = DB::select('select name from galleries where path=?', [$galleryName]);
+        $gallery_exists = DB::select('select name from galleries where path=?', [$gallery_path]);
 
         // Ak sa nenašiel názor
         if ($gallery_exists == null){
             return response()->json('Galéria pre upload sa nenašla', Response::HTTP_NOT_FOUND);
         }
 
+        $fullpath = $gallery_path . '/' . $path;
 
-        return response()->json(['uploaded' => ['path' => $path, 'fullpath' => $path, 'name' => $name, 'modified' => '$modified']], Response::HTTP_OK);
+        // Konečný upload obrázku do databázy
+
+        $modified = time();
+        $id_gallery = $this->getIdGallery($gallery_path);
+        //var_dump($id_gallery->id); // VYMAZAT - testovacia premenna
+
+        // Uloženie údajov do databázy
+        DB::insert('insert into images (id_gallery, path, fullpath, name) values (?, ?, ?, ?)', [$id_gallery->id, $path, $fullpath, $name]);
+
+
+        // konečný response
+        return response()->json(['uploaded' => ['path' => $path, 'fullpath' => $fullpath, 'name' => $name, 'modified' => $modified]], Response::HTTP_OK);
     }
 
 
@@ -176,5 +192,22 @@ class GalleryController extends Controller
         $imagePath = strtolower($path) . '.jpg';
         $galleryPath = $path;
         return $fullPath = $imagePath . $galleryPath;
+    }
+
+    /**
+     * Privatna funkcia filtruje URL zadanú používateľom z Requestu $_POST
+     * @param $value
+     * @return mixed
+     */
+    private function getPostUrlValue($value){
+        return $getValue = filter_var($value, FILTER_SANITIZE_URL);
+    }
+
+    private function getIdGallery($path){
+        $id_gallery = DB::select('select id from galleries where path=?', [$path]);
+
+        foreach ($id_gallery as $key){
+            return $key;
+        }
     }
 }
