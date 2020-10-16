@@ -38,6 +38,11 @@ class GalleryController extends Controller
         $item = Gallery::all()->where('path', $path);
         $id_gallery = DB::select('select * from galleries where path = ?', [$path]);
 
+        // Ak zadaná galéria v databáze neexistuje. Vráti sa chyba 404
+        if ($id_gallery == null){
+            return response()->json('Zvolená galéria neexistuje', 404);
+        }
+
         foreach($id_gallery as $value){
             $get_id_of_gallery = $value->id;
         }
@@ -81,11 +86,12 @@ class GalleryController extends Controller
             'image' => 'required',
         ]);
 
-        // Validator skontroluje či zlyhala podmienka pri nahravani suboru. Ak ano - vrati response s chybovou hlaškou.
+        // Validator skontroluje, či bol vložený subor do POST požiadavky na nahratie. Ak nie - vrati response s chybovou hlaškou.
         if ($rules->fails()) {
             return response()->json('Chybný request - nenašiel sa súbor pre upload.', Response::HTTP_NOT_FOUND);
         }
 
+        // proces nahravania suboru
         $files = $request->file('image');
         if(!empty($files)) {
             foreach($files as $file) {
@@ -93,6 +99,9 @@ class GalleryController extends Controller
                 $this->insert($image);
             }
         }
+
+        // Zistenie, či galeria existuje. Ak galeria neexistuje, vráti response 404
+        $gallery_exists = DB::select('select name from galleries where path=?', [$path]);
 
         $name = substr($request->image->getClientOriginalName(), 0, -4);
         $path = strtolower($request->image->getClientOriginalName());

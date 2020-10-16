@@ -35,7 +35,7 @@ trait ApiResponser
      * @return \Illuminate\Http\JsonResponse
      */
     public function errorNotFound($message, $code = Response::HTTP_NOT_FOUND){
-        return response()->json(['message' => $message], $code);
+        return response()->json(['chyba' => $message], $code);
     }
 
     /**
