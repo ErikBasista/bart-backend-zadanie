@@ -100,11 +100,20 @@ class GalleryController extends Controller
             }
         }
 
-        // Zistenie, či galeria existuje. Ak galeria neexistuje, vráti response 404
-        $gallery_exists = DB::select('select name from galleries where path=?', [$path]);
+        // Vytvorenie požadovaných reťazcov
+        $name = substr($request->image->getClientOriginalName(), 0, -4);    // získa názov súboru bez prípony .jpg
+        $path = strtolower($request->image->getClientOriginalName());                   // získa názov súboru s príponou .jpg so všetkými malými písmenami
+        $galleryName = ucfirst($name);      // Prvé písmeno názvu obrázku zmeníme na veľké, aby sme v databáze našli rovnaký názov galérie, kam uložíme obrázok
 
-        $name = substr($request->image->getClientOriginalName(), 0, -4);
-        $path = strtolower($request->image->getClientOriginalName());
+        // Zistenie, či galeria existuje. Ak galeria neexistuje, vráti response 404
+        $gallery_exists = DB::select('select name from galleries where path=?', [$galleryName]);
+
+        // Ak sa nenašiel názor
+        if ($gallery_exists == null){
+            return response()->json('Galéria pre upload sa nenašla', Response::HTTP_NOT_FOUND);
+        }
+
+
         return response()->json(['uploaded' => ['path' => $path, 'fullpath' => $path, 'name' => $name, 'modified' => '$modified']], Response::HTTP_OK);
     }
 
