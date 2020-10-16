@@ -22,10 +22,10 @@ class Image extends Model
 
     /**
      * The attributes excluded from the model's JSON form.
-     *
+     * Skryte hodnoty, ktotér sa do response nezobrazujú
      * @var array
      */
     protected $hidden = [
-        'created_at', 'id', 'updated_at'
+        'created_at', 'id', 'id_gallery'
     ];
 }

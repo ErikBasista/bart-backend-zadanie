@@ -47,7 +47,23 @@ class GalleryController extends Controller
             $get_id_of_gallery = $value->id;
         }
 
-        $imglist = Image::all()->where('id_gallery', $get_id_of_gallery );
+        //$imglist = Image::all()->where('id_gallery', $get_id_of_gallery );
+        $imglist = DB::select('select name, path, fullpath, updated_at from images where id_gallery=?', [$get_id_of_gallery]);
+
+        // Foreach slučka, ktorá znovu prepíše keys a zmení názov kľúča "updated_at" na "modified"
+        foreach ($imglist as $key){
+            $path = $key->path;
+            $fullpath = $key->fullpath;
+            $name = $key->name;
+            $modified = $key->updated_at;
+        }
+
+        $imglist = [
+            'path' => $path,
+            'fullpath' => $fullpath,
+            'name' => $name,
+            'modified' => $modified
+        ];
 
         // return, vráti response hodnotu
         return response()->json( ['gallery' => $item, 'images' => $imglist], 200);

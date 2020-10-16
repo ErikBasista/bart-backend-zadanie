@@ -38,6 +38,6 @@ $factory->define(Image::class, function (Faker $faker) {
         'id_gallery' => $id_gallery = $faker->randomElement(['2', '4', '6', '8', '9', '10']),
         'name' => $name_of_image,
         'path' => $full_name_of_image = strtolower($full_name_of_image),
-        'fullpath' => 'path',
+        'fullpath' => $full_name_of_image,
     ];
 });
