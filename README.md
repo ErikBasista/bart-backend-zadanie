@@ -17,7 +17,7 @@ Zadanie som vypracoval v Lumen PHP Frameworku. Mikro-framework Laravelu. Tento m
 - Vývoj API som realizoval pomocou IDE prostredia PhpStorm
 - Zmeny v kóde som commitoval parimo na Github
 - Popri programovaniu som priebežne doplňal informácie do README.md
-
+- Pri prípadných problémoch v kódovaní som použil vyhľadávanie segmentov kódu v komunite Stackowerflow.com, dokumentáciu Laravel a Lumen, tiež články na medium.com a iné.
 ### Route
 
 Vytvoril som základný routing odkazujúci sa na metódy v Controlleri pre prácu s galériami.
