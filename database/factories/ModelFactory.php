@@ -39,5 +39,6 @@ $factory->define(Image::class, function (Faker $faker) {
         'name' => $name_of_image,
         'path' => $full_name_of_image = strtolower($full_name_of_image),
         'fullpath' => $full_name_of_image,
+        'modified' => $faker->dateTime('2020-05-30 19:28:21', 'UTC')
     ];
 });

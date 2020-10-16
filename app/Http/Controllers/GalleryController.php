@@ -49,24 +49,9 @@ class GalleryController extends Controller
         }
 
         //$imglist = Image::all()->where('id_gallery', $get_id_of_gallery );
-        $imglist = DB::select('select name, path, fullpath, updated_at from images where id_gallery=?', [$get_id_of_gallery]);
+        $imglist = DB::select('select name, path, fullpath, modified from images where id_gallery=?', [$get_id_of_gallery]);
 
-        // Foreach slučka vyberie jednotlive kľuče poľa a znovu prepíše názvy keys, aby sa zmeníl názov kľúča "updated_at" na "modified"
-        foreach ($imglist as $key){
-            $path = $key->path;
-            $fullpath = $key->fullpath;
-            $name = $key->name;
-            $modified = $key->updated_at;
-        }
-
-        $imglist = [
-            'path' => $path,
-            'fullpath' => $fullpath,
-            'name' => $name,
-            'modified' => $modified
-        ];
-
-        // return, vráti response hodnotu
+        // Konečný response
         return response()->json( ['gallery' => $item, 'images' => $imglist], 200);
     }
 
@@ -160,8 +145,7 @@ class GalleryController extends Controller
 
         // Konečný upload obrázku do databázy
         // Uloženie údajov do databázy
-        DB::insert('insert into images (id_gallery, path, fullpath, name, updated_at) values (?, ?, ?, ?, ?)', [$id_gallery->id, $path, $fullpath, $name, $modified]);
-
+        DB::table('images')->insert(['id_gallery' => $id_gallery->id, 'path' => $path, 'fullpath' => $fullpath, 'name' => $name, 'modified' => $modified]);
         // Konečný response
         return response()->json(['uploaded' => ['path' => $path, 'fullpath' => $fullpath, 'name' => $name, 'modified' => $modified]], Response::HTTP_OK);
     }
