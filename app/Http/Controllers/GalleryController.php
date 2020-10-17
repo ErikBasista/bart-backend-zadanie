@@ -166,9 +166,9 @@ class GalleryController extends Controller
         $gallery = $gallery->delete();
 
         if ($gallery == null){
-            return $this->errorNotFound('Galeria neexistuje');
+            return $this->errorNotFound('Galeria neexistuje', 404);
         } else {
-            return $this->successDelete('Galéria bola úspešne vymazaná');
+            return $this->successDelete('Galéria bola úspešne vymazaná', 200);
         }
 
         // Tento response pre všeobecnu chybu v exception sa nachádza v app/Exceptions/Handler.php:
