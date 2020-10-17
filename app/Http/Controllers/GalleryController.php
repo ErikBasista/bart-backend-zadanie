@@ -162,7 +162,9 @@ class GalleryController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function delete($path){
+
         $gallery = Gallery::where('path', $path);
+
         $gallery = $gallery->delete();
 
         if ($gallery == null){

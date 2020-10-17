@@ -121,6 +121,17 @@ Response
     "path": "nova%20galeria"
 }
 ```
+### 1.3. Vymazanie galérie
+Request:
+```
+DELETE /gallery/nova%20galeria
+```
+Response:
+```
+{
+    "message": "Galéria bola úspešne vymazaná"
+}
+```
 ## 2. Postup a kroky vypracovania backend zadania
 ### 2.1. Použil som: IDE PhpStorm, Postman a Github
 - Počas testovania celej kvality naprogramovaného API som používal Postman pre odosielanie requestov
