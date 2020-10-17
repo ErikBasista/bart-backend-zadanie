@@ -28,7 +28,7 @@ class ImageUploadController extends BaseController
             $image = $this->path;
 
             if ($request->file('image')->move($destination_path, $image)) {
-                $user->image = '/images/' . $this->fullpath;
+                $user->image = '/images/' . $this->fullpath;        // Poznamka: $image
                 return $this->responseRequestSuccess($user);
             } else {
                 return $this->responseRequestError('Obrázok sa nedá nahrať');

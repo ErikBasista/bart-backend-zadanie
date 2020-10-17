@@ -30,7 +30,8 @@ class ImageController extends Controller
             'path' => 'required'
         ]);*/
 
-        $path = storage_path('/images/' . 'Elephant.jpg');
+        //$path = storage_path('/images/' . 'Elephant.jpg');
+        $path = resource_path() . '/images/' . 'Elephant.jpg';
 
         if (!File::exists($path)) {
             return response()->json(['Obrázok sa nenašiel'], 404);
