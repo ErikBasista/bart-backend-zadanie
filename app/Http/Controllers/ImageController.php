@@ -22,6 +22,11 @@ class ImageController extends Controller
         //
     }
 
+    /**
+     * Funkcia pre vykreslenie obrázku na základe hodnôt z requestu
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|Response
+     */
     public function render(Request $request)
     {
         $rules = Validator::make($request->all(), [
@@ -31,6 +36,7 @@ class ImageController extends Controller
             'image' => 'required'
         ]);
 
+        // Zakomentovať - stále vyhadzuje túto chybu, aj ked response obsahuje všetky polia
         /*if ($rules->fails()){
             return response()->json(['Obrázok sa nenašiel'], 500);
         }*/
@@ -49,51 +55,13 @@ class ImageController extends Controller
         $file = File::get($path);
         $type = File::mimeType($path);
 
-
         // Zostavenie response reťazca
         $response = \Illuminate\Support\Facades\Response::make($file, 200);
         $response->header("Content-Type", $type);
-        //return response()->json($file, 200)->header("Content-Type", $type);
         return $response;
     }
 
-
-    public function temp(Request $request)
-    {
-        $rules = Validator::make($request->all(), [
-            'w' => 'required',
-            'h' => 'required',
-            'path' => 'required',
-            'image' => 'required'
-        ]);
-
-        // Získanie posledných segmentov z URL
-        $gallery_dir = $this->urlParser($request->path);
-        ;
-        $image_dir = $request->image;
-
-        /*if ($rules->fails()){
-            return response()->json(['Obrázok sa nenahral'], 500);
-        }*/
-
-        $path = '/images/' . $gallery_dir[0] . '/' . $request->image;
-
-        //$path = '/images/' . 'Yemen/giraffe.jpg';
-        if (!File::exists($path)) {
-            return response()->json(['Obrázok sa nenašiel'], 404);
-        }
-
-        $file = File::get($path);
-        $type = File::mimeType($path);
-
-
-        // Zostavenie response reťazca
-        $response = \Illuminate\Support\Facades\Response::make($file, 200);
-        $response->header("Content-Type", $type);
-        //return response()->json($file, 200)->header("Content-Type", $type);
-        return $response;
-    }
-
+    /* Funkcia pre zmenu veľkosti */
     /*public function resize_crop_image($max_width = 400, $max_height = 400, $source_file, $dst_dir, $quality = 80){
         $imgsize = getimagesize($source_file);
         $width = $imgsize[0];
@@ -128,6 +96,11 @@ class ImageController extends Controller
         if($src_img)imagedestroy($src_img);
     }*/
 
+    /**
+     * Privátna funkcia oddelí segmenty od URL adresy
+     * @param $uri
+     * @return false|string[]
+     */
     private function urlParser($uri){
         $uri_path = parse_url($uri, PHP_URL_PATH);
         $uri_segments = explode('/', $uri_path);
