@@ -11,6 +11,7 @@ use App\Traits\ApiResponser;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\ImageUploadController;
 
 class GalleryController extends Controller
 {
@@ -144,8 +145,12 @@ class GalleryController extends Controller
         $modified = $this->getTimeStamp();
 
         // Konečný upload obrázku do databázy
+        $uploadFile = new ImageUploadController($path, $fullpath);
+        $uploadFile->uploadImage($request);
+
         // Uloženie údajov do databázy
         DB::table('images')->insert(['id_gallery' => $id_gallery->id, 'path' => $path, 'fullpath' => $fullpath, 'name' => $name, 'modified' => $modified]);
+
         // Konečný response
         return response()->json(['uploaded' => ['path' => $path, 'fullpath' => $fullpath, 'name' => $name, 'modified' => $modified]], Response::HTTP_OK);
     }
@@ -238,7 +243,6 @@ class GalleryController extends Controller
      * @return false|string
      */
     private function getTimeStamp(){
-        //$modified = time();
         $date = new DateTime();
         $modified = date("Y-m-d H:i:s", $date->getTimestamp());
         return $modified;
