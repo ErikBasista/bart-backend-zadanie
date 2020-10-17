@@ -108,6 +108,21 @@ Response:
     ]
 }
 ```
+V prípade, ak galéria neobsahuje žiadne obrázky, získame response so zoznamom obrázkov v prázdnom poli:
+```
+Request: GET /gallery/Denmark
+```
+```
+{
+    "gallery": {
+        {
+            "name": "Denmark",
+            "path": "Denmark"
+        }
+    },
+    "images": []
+}
+```
 ### 1.3. Vytvorenie novej galérie.
 
 Request:
@@ -121,7 +136,7 @@ Response
     "path": "nova%20galeria"
 }
 ```
-### 1.3. Vymazanie galérie
+### 1.4. Vymazanie galérie
 Request:
 ```
 DELETE /gallery/nova%20galeria
@@ -133,7 +148,7 @@ Response:
 }
 ```
 
-### 1.4. Upload obrázku do zvolenej galérie
+### 1.5. Upload obrázku do zvolenej galérie
 Request (príklad):
 ```
 POST /gallery/Yemen
@@ -189,7 +204,7 @@ Výsledok vloženého obrázku do galérie Yemen k ostatným obrázkom
 ```
 Obrázok sa uploadne následne v našom prípade do priečinka: "/public/images/Yemen/"
 
-### 1.5. Vygenerovanie náhľadového obrázku
+### 1.6. Vygenerovanie náhľadového obrázku
 Request (príklad existujúceho obrázka v galérii Yemen):
 ```
 GET /images/7x7/Yemen/giraffe.jpg
