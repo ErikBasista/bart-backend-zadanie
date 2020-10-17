@@ -187,8 +187,18 @@ Výsledok vloženého obrázku do galérie Yemen k ostatným obrázkom
     ]
 }
 ```
-Obrázok sa uploadne následne do priečinka "/public/images/Yemen/giraffe.jpg"
+Obrázok sa uploadne následne v našom prípade do priečinka: "/public/images/Yemen/"
 
+### 1.5. Vygenerovanie náhľadového obrázku
+Request (príklad existujúceho obrázka v galérii Yemen):
+```
+GET /images/7x7/Yemen/giraffe.jpg
+```
+Response:
+```
+Vygeneruje sa obázok z galérie typu: image/jpeg
+Jeho umiestnenie sa nachádza v /images/Nazov_galerie/Nazov_obrazku.jpg
+```
 ## 2. Postup a kroky vypracovania backend zadania
 ### 2.1. Použil som: IDE PhpStorm, Postman a Github
 - Počas testovania celej kvality naprogramovaného API som používal Postman pre odosielanie requestov
@@ -274,10 +284,22 @@ Následne príkaz pre spustenie naplnenia databázy do tabuliek:
 ```
 php artisan db:seed
 ```
+### 2.3. Modely
+Vytvorené modely pre ťahanie údajov z polí v databáze sqlite
+- app/Gallery.php
+- app/Image.php
 
-## 2.3. Security Vulnerabilities
+### 2.4. Trait
+Vytvoril som globálny ApiResponser, pre volanie funkcií s jednotlivými response hodnotami
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+- app/Traits/ApiResponser.php
+
+### 2.5. Controllery
+Následné Controllery pre spracovávanie requestov
+
+- app/Http/Controllers/GalleryController.php // pre prácu s galériami
+- app/Http/Controllers/ImageController.php // pre prácu s obrázkami
+- app/Http/Controllers/ImageUploadController.php // controller pre upload obrázkov do galérie
 
 ## License
 

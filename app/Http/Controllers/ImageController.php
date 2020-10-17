@@ -45,7 +45,7 @@ class ImageController extends Controller
         $gallery_dir = $this->urlParser($request->path);
         $image_dir = $request->image;
 
-        $path = 'images/' . $gallery_dir[0] . '/' . $image_dir . '.jpg';
+        $path = 'images/' . $gallery_dir[0] . '/' . $image_dir;
 
 
         if (!File::exists($path)) {
