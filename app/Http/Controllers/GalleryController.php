@@ -145,7 +145,7 @@ class GalleryController extends Controller
         $modified = $this->getTimeStamp();
 
         // Konečný upload obrázku do databázy
-        $uploadFile = new ImageUploadController($path, $fullpath);
+        $uploadFile = new ImageUploadController($path, $gallery_path);
         $uploadFile->uploadImage($request);
 
         // Uloženie údajov do databázy

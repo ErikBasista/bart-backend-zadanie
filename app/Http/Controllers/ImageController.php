@@ -6,6 +6,8 @@ use App\Image;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Traits\ApiResponser;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 
 class ImageController extends Controller
 {
@@ -20,9 +22,33 @@ class ImageController extends Controller
         //
     }
 
-    public function render(Request $request){
-        $allimages = Image::all();
-        return $this->successResponse($allimages);
+    public function render(Request $request)
+    {
+        /*$rules = Validator::make($request->all(), [
+            'w' => 'required',
+            'h' => 'required',
+            'path' => 'required'
+        ]);*/
+
+        $path = storage_path('/images/' . 'Elephant.jpg');
+
+        if (!File::exists($path)) {
+            return response()->json(['Obrázok sa nenašiel'], 404);
+        }
+
+        $file = File::get($path);
+        $type = File::mimeType($path);
+
+        //$response = Response::make();
+
+        $response = \Illuminate\Support\Facades\Response::make($file, 200);
+        $response->header("Content-Type", $type);
+
+        //return response()->json($file, 200)->header("Content-Type", $type);
+
+        return $response;
+
     }
+
 
 }

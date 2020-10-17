@@ -28,13 +28,13 @@ class ImageUploadController extends BaseController
             $image = $this->path;
 
             if ($request->file('image')->move($destination_path, $image)) {
-                $user->image = '/images/' . $image;
+                $user->image = '/images/' . $this->fullpath;
                 return $this->responseRequestSuccess($user);
             } else {
-                return $this->responseRequestError('Cannot upload file');
+                return $this->responseRequestError('Obrázok sa nedá nahrať');
             }
         } else {
-            return $this->responseRequestError('File not found');
+            return $this->responseRequestError('Chybný request - nenašiel sa súbor pre upload.', 400);
         }
     }
 
