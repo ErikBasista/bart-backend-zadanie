@@ -27,16 +27,58 @@ class ImageController extends Controller
         $rules = Validator::make($request->all(), [
             'w' => 'required',
             'h' => 'required',
-            'path' => 'required'
+            'path' => 'required',
+            'image' => 'required'
         ]);
 
-        if ($rules->fails()){
+        /*if ($rules->fails()){
             return response()->json(['Obrázok sa nenašiel'], 500);
+        }*/
+
+        // Získanie posledných segmentov z URL - /adresar_galerie/obrazok.jpg
+        $gallery_dir = $this->urlParser($request->path);
+        $image_dir = $request->image;
+
+        $path = 'images/' . $gallery_dir[0] . '/' . $image_dir . '.jpg';
+
+
+        if (!File::exists($path)) {
+            return response()->json(['Obrázok sa nenašiel'], 404);
         }
 
-        //$path = storage_path('/images/' . 'Elephant.jpg');
-        $path = 'images/' . 'Elephant.jpg';
+        $file = File::get($path);
+        $type = File::mimeType($path);
 
+
+        // Zostavenie response reťazca
+        $response = \Illuminate\Support\Facades\Response::make($file, 200);
+        $response->header("Content-Type", $type);
+        //return response()->json($file, 200)->header("Content-Type", $type);
+        return $response;
+    }
+
+
+    public function temp(Request $request)
+    {
+        $rules = Validator::make($request->all(), [
+            'w' => 'required',
+            'h' => 'required',
+            'path' => 'required',
+            'image' => 'required'
+        ]);
+
+        // Získanie posledných segmentov z URL
+        $gallery_dir = $this->urlParser($request->path);
+        ;
+        $image_dir = $request->image;
+
+        /*if ($rules->fails()){
+            return response()->json(['Obrázok sa nenahral'], 500);
+        }*/
+
+        $path = '/images/' . $gallery_dir[0] . '/' . $request->image;
+
+        //$path = '/images/' . 'Yemen/giraffe.jpg';
         if (!File::exists($path)) {
             return response()->json(['Obrázok sa nenašiel'], 404);
         }
@@ -85,6 +127,12 @@ class ImageController extends Controller
         if($dst_img)imagedestroy($dst_img);
         if($src_img)imagedestroy($src_img);
     }*/
+
+    private function urlParser($uri){
+        $uri_path = parse_url($uri, PHP_URL_PATH);
+        $uri_segments = explode('/', $uri_path);
+        return $uri_segments;
+    }
 
 
 

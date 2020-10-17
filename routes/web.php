@@ -35,4 +35,4 @@ $router->post('/gallery/{path}', 'GalleryController@upload');   // Upload obráz
 |--------------------------------------------------------------------------
 */
 // /gallery
-$router->get('/images/{w}x{h}/{path}', 'ImageController@render'); // Vygenerovanie náhľadového obrázku
+$router->get('/images/{w}x{h}/{path}/{image}', 'ImageController@render'); // Vygenerovanie náhľadového obrázku

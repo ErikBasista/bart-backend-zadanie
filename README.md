@@ -137,6 +137,8 @@ Response:
 Request (príklad):
 ```
 POST /gallery/Yemen
+```
+```
 {
     'image' : 'giraffe.jpg',
     'gallery_path' : 'Yemen'
