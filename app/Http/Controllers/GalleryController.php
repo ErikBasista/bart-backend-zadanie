@@ -72,6 +72,7 @@ class GalleryController extends Controller
         $path .= '.jpg';
 
         $path = strtolower($rules['name']);
+        $path = rawurlencode($path);
 
         // Vytvorí novú galériu do databázy
         $gallery = DB::insert('insert into galleries (name, path) values (?, ?)', [$rules['name'], $path]);

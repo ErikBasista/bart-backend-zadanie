@@ -24,11 +24,15 @@ class ImageController extends Controller
 
     public function render(Request $request)
     {
-        /*$rules = Validator::make($request->all(), [
+        $rules = Validator::make($request->all(), [
             'w' => 'required',
             'h' => 'required',
             'path' => 'required'
-        ]);*/
+        ]);
+
+        if ($rules->fails()){
+            return response()->json(['Obrázok sa nenašiel'], 500);
+        }
 
         //$path = storage_path('/images/' . 'Elephant.jpg');
         $path = 'images/' . 'Elephant.jpg';
@@ -40,48 +44,12 @@ class ImageController extends Controller
         $file = File::get($path);
         $type = File::mimeType($path);
 
-        //$response = Response::make();
 
+        // Zostavenie response reťazca
         $response = \Illuminate\Support\Facades\Response::make($file, 200);
         $response->header("Content-Type", $type);
-
         //return response()->json($file, 200)->header("Content-Type", $type);
         return $response;
-
-        //usage example
-
-
-        //$this->resize_crop_image(100, 100, "$path", 'images/');
-
-    }
-
-    public function test(){
-        if (empty($base64_encoded))
-            return 'Elephant.jpg';
-
-        $uploads_dir = base_path('public/images');
-        $file_name = uniqid();
-
-        $allowed_mimes = ['data:image/jpeg;base64', 'data:image/png;base64'];
-
-        $the_image = explode(',', $base64_encoded);
-
-        // Log::debug(var_export($the_image,true));
-
-        $mime = $the_image[0]; // data:image/jpeg;base64
-        $image = $the_image[1];
-        $extension = '.jpg';
-
-        if (!in_array($mime, $allowed_mimes))
-            return response([
-                'message' => ['File not allowed']
-            ], 403);
-
-        $file = fopen($uploads_dir.'/'.$file_name.$extension, 'wb');
-        fwrite($file, base64_decode($image));
-        fclose($file);
-
-
     }
 
     /*public function resize_crop_image($max_width = 400, $max_height = 400, $source_file, $dst_dir, $quality = 80){

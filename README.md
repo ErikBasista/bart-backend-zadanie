@@ -23,11 +23,104 @@ Zodpovedný route:
 $router->get('/gallery', 'GalleryController@index'); // Zobrazí všetky galérie do objektu "galleries"
 ```
 Response výsledkov
-
-### Výpis všetkých galérií z databázy.
-### Vytvorenie novej galérie.
+```
+{
+    "galleries": [
+        {
+            "name": "Antigua and Barbuda",
+            "path": "Antigua%20and%20Barbuda"
+        },
+        {
+            "name": "Mali",
+            "path": "Mali"
+        },
+        {
+            "name": "Bosnia and Herzegovina",
+            "path": "Bosnia%20and%20Herzegovina"
+        },
+        {
+            "name": "Denmark",
+            "path": "Denmark"
+        },
+        {
+            "name": "Paraguay",
+            "path": "Paraguay"
+        },
+        {
+            "name": "Yemen",
+            "path": "Yemen"
+        },
+        {
+            "name": "Philippines",
+            "path": "Philippines"
+        },
+        {
+            "name": "Namibia",
+            "path": "Namibia"
+        },
+        {
+            "name": "Cyprus",
+            "path": "Cyprus"
+        },
+        {
+            "name": "Nigeria",
+            "path": "Nigeria"
+        }
+    ]
+}
+```
 ### Zoznam obrázkov v galérii.
 
+Request:
+
+Ukážka obsahu obrázkov v galérii pod názvom "Mali":
+```
+GET http://localhost/bart.sk/public/gallery/Mali
+```
+Response:
+```
+{
+    "gallery": {
+        "1": {
+            "name": "Mali",
+            "path": "Mali"
+        }
+    },
+    "images": [
+        {
+            "name": "Vylet",
+            "path": "vylet.jpg",
+            "fullpath": "vylet.jpg",
+            "modified": "1977-06-06 10:09:41"
+        },
+        {
+            "name": "Tance",
+            "path": "tance.jpg",
+            "fullpath": "tance.jpg",
+            "modified": "2019-05-16 03:42:33"
+        },
+        {
+            "name": "Party",
+            "path": "party.jpg",
+            "fullpath": "party.jpg",
+            "modified": "1974-01-26 21:36:50"
+        }
+    ]
+}
+```
+### Vytvorenie novej galérie.
+
+Request:
+```
+POST /gallery?name=Nova Galeria
+```
+Response
+```
+{
+    "name": "Nova Galeria",
+    "path": "nova%20galeria"
+}
+```
 ## Postup a kroky vypracovania backend zadania
 ### Použil som: IDE PhpStorm, Postman a Github
 - Počas testovania celej kvality naprogramovaného API som používal Postman pre odosielanie requestov
