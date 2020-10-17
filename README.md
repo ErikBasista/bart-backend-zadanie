@@ -234,10 +234,13 @@ $router->post('/gallery', 'GalleryController@insert');          // Vytvorí nov�
 // /gallery/{path}
 $router->get('/gallery/{path}', 'GalleryController@show');      // Ukáže konkrétnu galériu a jej prisluchajúce obrázky
 $router->delete('/gallery/{path}', 'GalleryController@delete'); // Vymazanie zvolenej galérie, alebo obrázku
-$router->post('/gallery/{path}', 'GalleryController@upload');   // Upload obrázku do zvolenej galérie
+$router->post('/gallery/{path}', 'GalleryController@upload');   // Upload obrázku do zvolenej galérie. 
 
 // /gallery
-$router->get('/images/{w}x{h}/{path}', 'ImageController@render'); // Vygenerovanie náhľadového obrázku
+$router->get('/images/{w}x{h}/{path}/{image}', 'ImageController@render'); // Vygenerovanie náhľadového obrázku
+
+// Potreboval som pripojiť ešte segment {image}, aby som mohol rozdeliť URI na cestu priečinku a obrázku.
+
 ```
 ### 2.2. Databáza sqlite
 Databáza je fiktívna, vytvorená cez migrations. Do databázy som uložil náhodne vygenerované údaje pomocou funkcie Factory/Seeder.
