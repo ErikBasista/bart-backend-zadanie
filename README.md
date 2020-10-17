@@ -212,7 +212,7 @@ GET /images/7x7/Yemen/giraffe.jpg
 Response:
 ```
 Vygeneruje sa obázok z galérie typu: image/jpeg
-Jeho umiestnenie sa nachádza v /images/Nazov_galerie/Nazov_obrazku.jpg
+Jeho umiestnenie sa nachádza v: public/images/Nazov_galerie/Nazov_obrazku.jpg
 ```
 ## 2. Postup a kroky vypracovania backend zadania
 ### 2.1. Použil som: IDE PhpStorm, Postman a Github
