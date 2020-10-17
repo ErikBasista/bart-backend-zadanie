@@ -132,6 +132,61 @@ Response:
     "message": "Galéria bola úspešne vymazaná"
 }
 ```
+
+### 1.4. Upload obrázku do zvolenej galérie
+Request (príklad):
+```
+POST /gallery/Yemen
+{
+    'image' : 'giraffe.jpg',
+    'gallery_path' : 'Yemen'
+}
+```
+
+Response:
+```
+{
+    "uploaded": {
+        "path": "giraffe.jpg",
+        "fullpath": "Yemen/giraffe.jpg",
+        "name": "giraffe",
+        "modified": "2020-10-17 14:52:38"
+    }
+}
+```
+Výsledok vloženého obrázku do galérie Yemen k ostatným obrázkom
+```
+{
+    "gallery": {
+        "5": {
+            "name": "Yemen",
+            "path": "Yemen"
+        }
+    },
+    "images": [
+        {
+            "name": "Plaz",
+            "path": "plaz.jpg",
+            "fullpath": "plaz.jpg",
+            "modified": "2001-10-23 05:01:20"
+        },
+        {
+            "name": "Elephant",
+            "path": "elephant.jpg",
+            "fullpath": "Yemen/elephant.jpg",
+            "modified": "2020-10-17 09:19:05"
+        },
+        {
+            "name": "giraffe",
+            "path": "giraffe.jpg",
+            "fullpath": "Yemen/giraffe.jpg",
+            "modified": "2020-10-17 14:52:38"
+        }
+    ]
+}
+```
+Obrázok sa uploadne následne do priečinka "/public/images/Yemen/giraffe.jpg"
+
 ## 2. Postup a kroky vypracovania backend zadania
 ### 2.1. Použil som: IDE PhpStorm, Postman a Github
 - Počas testovania celej kvality naprogramovaného API som používal Postman pre odosielanie requestov
