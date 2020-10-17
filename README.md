@@ -11,8 +11,8 @@ Laravel Lumen is a stunningly fast PHP micro-framework for building web applicat
 
 Zadanie som vypracoval v Lumen PHP Frameworku. Mikro-framework Laravelu. Tento mikro-framework považujem za vhodnú voľbu pre tvorbu API riešení v back-ende. Nakoľko sa v poslednom čase venujem práve vývoju API, rozhodol som sa pre tento framework, nakoľko obsahuje len tie najdôležitejšie metódy pre prácu malých projektov a nezaberá toľko kapacity navyše čo samotný Laravel. [Lumen website](https://lumen.laravel.com/docs).
 
-## API dokumentácia
-### Výpis všetkých galérií z databázy
+## 1. API dokumentácia
+### 1.1. Výpis všetkých galérií z databázy
 
 Request:
 ```
@@ -69,7 +69,7 @@ Response výsledkov
     ]
 }
 ```
-### Zoznam obrázkov v galérii.
+### 1.2. Zoznam obrázkov v galérii.
 
 Request:
 
@@ -108,7 +108,7 @@ Response:
     ]
 }
 ```
-### Vytvorenie novej galérie.
+### 1.3. Vytvorenie novej galérie.
 
 Request:
 ```
@@ -121,8 +121,8 @@ Response
     "path": "nova%20galeria"
 }
 ```
-## Postup a kroky vypracovania backend zadania
-### Použil som: IDE PhpStorm, Postman a Github
+## 2. Postup a kroky vypracovania backend zadania
+### 2.1. Použil som: IDE PhpStorm, Postman a Github
 - Počas testovania celej kvality naprogramovaného API som používal Postman pre odosielanie requestov
 - Vývoj API som realizoval pomocou IDE prostredia PhpStorm
 - Zmeny v kóde som commitoval parimo na Github
@@ -146,7 +146,7 @@ $router->post('/gallery/{path}', 'GalleryController@upload');   // Upload obráz
 // /gallery
 $router->get('/images/{w}x{h}/{path}', 'ImageController@render'); // Vygenerovanie náhľadového obrázku
 ```
-### Databáza sqlite
+### 2.2. Databáza sqlite
 Databáza je fiktívna, vytvorená cez migrations. Do databázy som uložil náhodne vygenerované údaje pomocou funkcie Factory/Seeder.
 
 - Vytvoril som prázdny súbor database.sqlite do ktorého som vložil náhodne vygenerované názvy galérie a obrázkov.
@@ -207,7 +207,7 @@ Následne príkaz pre spustenie naplnenia databázy do tabuliek:
 php artisan db:seed
 ```
 
-## Security Vulnerabilities
+## 2.3. Security Vulnerabilities
 
 If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
 
