@@ -107,6 +107,4 @@ class ImageController extends Controller
         return $uri_segments;
     }
 
-
-
 }

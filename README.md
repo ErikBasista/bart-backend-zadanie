@@ -218,7 +218,7 @@ Obrázok sa uploadne následne v našom prípade do priečinka: "/public/images/
 ### 1.6. Vygenerovanie náhľadového obrázku
 Request (príklad existujúceho obrázka v galérii Yemen):
 ```
-GET /images/7x7/Yemen/giraffe.jpg
+GET /images/300x400/Yemen/giraffe.jpg
 ```
 Response:
 ```

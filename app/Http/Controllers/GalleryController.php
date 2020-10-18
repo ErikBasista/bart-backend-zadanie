@@ -68,11 +68,14 @@ class GalleryController extends Controller
         ];
 
         $rules = $this->validate($request, $rules);
-        $path = $rules['name'];
-        $path .= '.jpg';
 
-        $path = strtolower($rules['name']);
-        $path = rawurlencode($path);
+        $path = strtolower($rules['name']); // názov priečinka galérie musí byť transformovaný do malých písmen
+        $path = rawurlencode($path);        // medzery a iné znaky potrebujeme transformovať do URL hodnoty
+
+        /* Zisťuje, či názov obsahuje lomítko, ktoré nesmie mať */
+        if ($this->hasStringSlash($request->name) == false){
+            return $this->errorNotFound('Názov galérie nesmie obsahovať lomítko', Response::HTTP_CONFLICT);
+        }
 
         /* Zisťuje volaním funkcie, či galéria so zadaným názvom už existuje */
         if ($this->galleryExists($path) == false){
@@ -254,6 +257,19 @@ class GalleryController extends Controller
         $date = new DateTime();
         $modified = date("Y-m-d H:i:s", $date->getTimestamp());
         return $modified;
+    }
+
+    /**
+     * Funkcia zisťuje, či máme v stringu lomítko (slash)
+     * @param $string
+     * @return bool
+     */
+    private function hasStringSlash($string){
+        if(strstr($string, '/')){
+            return false; // ak ma lomku, vratime false pre zastavenie algoritmu a volanie chyby
+        } else {
+            return true; // ak nema lomku, vratime true pre pokračovanie vo funkcii
+        }
     }
 
     /**
