@@ -136,6 +136,17 @@ Response
     "path": "nova%20galeria"
 }
 ```
+Ak galéria už v databáze existuje, vráti chybový response 409:
+Request:
+```
+POST /gallery?name=Nova Galeria
+```
+Response:
+```
+{
+    "chyba": "Galéria so zadaným názvom už existuje"
+}
+```
 ### 1.4. Vymazanie galérie
 Request:
 ```

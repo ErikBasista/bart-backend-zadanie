@@ -74,6 +74,11 @@ class GalleryController extends Controller
         $path = strtolower($rules['name']);
         $path = rawurlencode($path);
 
+        /* Zisťuje volaním funkcie, či galéria so zadaným názvom už existuje */
+        if ($this->galleryExists($path) == false){
+            return $this->errorNotFound('Galéria so zadaným názvom už existuje', 409);
+        }
+
         // Vytvorí novú galériu do databázy
         $gallery = DB::insert('insert into galleries (name, path) values (?, ?)', [$rules['name'], $path]);
 
@@ -249,5 +254,19 @@ class GalleryController extends Controller
         $date = new DateTime();
         $modified = date("Y-m-d H:i:s", $date->getTimestamp());
         return $modified;
+    }
+
+    /**
+     * Funkcia zisťuje či galéria v databáze už existuje
+     * @param $path
+     * @return bool|\Illuminate\Http\JsonResponse
+     */
+    private function galleryExists($path){
+        $gallery = DB::select('select * from galleries where path = ?', [$path]);
+        if ($gallery != null){
+            return false;
+        } else {
+            return true;
+        }
     }
 }
