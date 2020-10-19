@@ -127,7 +127,10 @@ Request: GET /gallery/Denmark
 
 Request:
 ```
-POST /gallery?name=Nova Galeria
+POST /gallery
+{
+    "name": "Nova Galeria",
+}
 ```
 Response
 ```
