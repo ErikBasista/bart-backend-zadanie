@@ -155,7 +155,7 @@ Response:
 ```
 Zabezpečovacie metódy:
 - public function galleryExists($path) // Pomocná funkcia pre vygenerovanie aktuálneho timestamp
-- public function private function hasStringSlash($string) // Funkcia zisťuje, či máme v stringu lomítko (slash) 
+- private function hasStringSlash($string) // Funkcia zisťuje, či máme v stringu lomítko (slash) 
 ### 1.4. Vymazanie galérie
 Request:
 ```
