@@ -142,7 +142,10 @@ Response
 Ak galéria už v databáze existuje, vráti chybový response 409:
 Request:
 ```
-POST /gallery?name=Nova Galeria
+POST /gallery
+{
+    "name": "Nova Galeria",
+}
 ```
 Response:
 ```
