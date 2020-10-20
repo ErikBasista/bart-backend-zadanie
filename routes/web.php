@@ -17,13 +17,16 @@ $router->get('/', function () use ($router) {
 
 /*
 |--------------------------------------------------------------------------
-| testovací route pre FACEBOOK
+| testovací route pre FACEBOOK Auth
 |--------------------------------------------------------------------------
 | Oficiálna Dokumentácia: https://github.com/facebookarchive/php-graph-sdk/tree/master/docs
 |
 */
 $router->get('/facebook', 'FacebookAuthController@facebookLogin');
 $router->get('/facebook/token/fb-callback', 'FacebookAuthController@facebookCallback');
+$router->get('/facebook/profile', 'FacebookAuthController@userProfile');
+
+$router->get('/gallery/all', ['middleware' => 'auth', 'uses' => 'GalleryController@index']);
 
 /*
 |--------------------------------------------------------------------------

@@ -26,9 +26,35 @@ class FacebookAuthController extends Controller
         $helper = $fb->getRedirectLoginHelper();
 
         $permissions = ['email']; // Optional permissions
-        $loginUrl = $helper->getLoginUrl('https://localhost/token/fb-callback.php', $permissions);
+        $loginUrl = $helper->getLoginUrl('https://localhost/login?response_type=token', $permissions);
 
         echo '<a href="' . $loginUrl . '">Log in with Facebook!</a>';
+
+    }
+
+    public function userProfile(){
+        $fb = new Facebook\Facebook([
+            'app_id' => '1053174974861205',
+            'app_secret' => 'token',
+            'default_graph_version' => 'v2.10',
+        ]);
+
+        try {
+            // Returns a `Facebook\Response` object
+            $response = $fb->get('/me?fields=id,name', '{access-token}');
+        } catch(Facebook\Exception\ResponseException $e) {
+            echo 'Graph returned an error: ' . $e->getMessage();
+            exit;
+        } catch(Facebook\Exception\SDKException $e) {
+            echo 'Facebook SDK returned an error: ' . $e->getMessage();
+            exit;
+        }
+
+        $user = $response->getGraphUser();
+
+        echo 'Name: ' . $user['name'];
+        // OR
+        // echo 'Name: ' . $user->getName();
     }
 
     public function facebookCallback(){
