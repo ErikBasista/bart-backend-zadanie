@@ -17,27 +17,19 @@ class FacebookAuthController extends Controller
     }
 
     public function facebookLogin(){
-        $fb = new Facebook\Facebook([
-            'app_id' => '1053174974861205',
-            'app_secret' => 'token',
-            'default_graph_version' => 'v2.10',
-        ]);
+        $fb = $this->fbCredentials();
 
         $helper = $fb->getRedirectLoginHelper();
 
         $permissions = ['email']; // Optional permissions
-        $loginUrl = $helper->getLoginUrl('https://localhost/login?response_type=token', $permissions);
+        $loginUrl = $helper->getLoginUrl('http://localhost/bart.sk/public/facebook/profile', $permissions);
 
         echo '<a href="' . $loginUrl . '">Log in with Facebook!</a>';
 
     }
 
     public function userProfile(){
-        $fb = new Facebook\Facebook([
-            'app_id' => '1053174974861205',
-            'app_secret' => 'token',
-            'default_graph_version' => 'v2.10',
-        ]);
+        $fb = $this->fbCredentials();
 
         try {
             // Returns a `Facebook\Response` object
@@ -50,6 +42,8 @@ class FacebookAuthController extends Controller
             exit;
         }
 
+        $response = $fb->get('/me?fields=id,name', '{access-token}');
+
         $user = $response->getGraphUser();
 
         echo 'Name: ' . $user['name'];
@@ -58,11 +52,7 @@ class FacebookAuthController extends Controller
     }
 
     public function facebookCallback(){
-        $fb = new Facebook\Facebook([
-            'app_id' => '{app-id}',
-            'app_secret' => '{app-secret}',
-            'default_graph_version' => 'v2.10',
-        ]);
+        $fb = $this->fbCredentials();
 
         $helper = $fb->getRedirectLoginHelper();
 
@@ -124,5 +114,13 @@ class FacebookAuthController extends Controller
         }
 
         $_SESSION['fb_access_token'] = (string) $accessToken;
+    }
+
+    private function fbCredentials(){
+        return $fb = new Facebook\Facebook([
+            'app_id' => 'appid',
+            'app_secret' => 'appsecret',
+            'default_graph_version' => 'v2.10',
+        ]);
     }
 }

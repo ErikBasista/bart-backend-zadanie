@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
+use Facebook;
 
 class Authenticate
 {
@@ -35,6 +36,21 @@ class Authenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
+        // TESTOVACI SEGMENT. PO NEUSPECHU VYMAZAT
+        $fb = new Facebook\Facebook([
+            'app_id' => '401954717500604',
+            'app_secret' => 'token',
+            'default_graph_version' => 'v2.10',
+        ]);
+
+        $helper = $fb->getRedirectLoginHelper();
+
+        $permissions = ['email']; // Optional permissions
+        $loginUrl = $helper->getLoginUrl('https://localhost/login?response_type=token', $permissions);
+
+        echo '<a href="' . $loginUrl . '">Log in with Facebook!</a>';
+        // TESTOVACI SEGMENT. PO NEUSPECHU VYMAZAT
+
         if ($this->auth->guard($guard)->guest()) {
             return response('Unauthorized.', 401);
         }
