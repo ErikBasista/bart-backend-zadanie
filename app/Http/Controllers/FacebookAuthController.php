@@ -22,7 +22,7 @@ class FacebookAuthController extends Controller
         $helper = $fb->getRedirectLoginHelper();
 
         $permissions = ['email']; // Optional permissions
-        $loginUrl = $helper->getLoginUrl('facebook/token/fb-callback', $permissions);
+        $loginUrl = $helper->getLoginUrl('http://localhost/token', $permissions);
 
         echo '<a href="' . $loginUrl . '">Log in with Facebook!</a>';
 
@@ -58,7 +58,7 @@ class FacebookAuthController extends Controller
             // Returns a `FacebookFacebookResponse` object
             $response = $fb->get(
                 '1053174974861205',
-                'EAAFtk2AnBLwBAMM8ih5K6H5K1yTNE0Vkdpx8f2ShTvyxMFNoMc6eanTEfFZAnM3iZBJAdPJLjZBIZAvUmRXBQudCKHZBkxXiv9aYiIqk9HiUaMo7t8WmPfppeDjjmeXy5b9s8fsSmbjXZCVvjsoCIHb0jOlcf62vMtrczO2pfNFK9ZCJcJDILgWUciw0zycQTzR7z2kZAcadYAZDZD'
+                'EAAFtk2AnBLwBAOhNP7AIdMmNBK5Hi8Es2BrKHXUwsZBBsdhxcvWgsUZA6QqsZCNZB6mkrfoNog1JWWT1VGaTdSxi3OCRMjPqPIrfRIxkTHZCfqbAmimpTW72BQOqUB1VzIcEAK3Ul7TxZAWyoh9oSSuJQRy1ZALH52uw8IxMRMFAQXyMt618gPn4u5hH7g7uQQZD'
             );
         } catch(FacebookExceptionsFacebookResponseException $e) {
             echo 'Graph returned an error: ' . $e->getMessage();

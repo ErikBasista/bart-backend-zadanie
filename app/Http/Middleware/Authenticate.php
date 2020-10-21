@@ -48,13 +48,16 @@ class Authenticate
         $permissions = ['email']; // Optional permissions
         $loginUrl = $helper->getLoginUrl('https://localhost/login?response_type=token', $permissions);
 
-        echo '<a href="' . $loginUrl . '">Log in with Facebook!</a>';
+        //echo '<a href="' . $loginUrl . '">Log in with Facebook!</a>';
+        header('Location: '. $loginUrl);
+        die();
         // TESTOVACI SEGMENT. PO NEUSPECHU VYMAZAT
 
-        if ($this->auth->guard($guard)->guest()) {
+        // Dočasne zamknuty guard
+        /*if ($this->auth->guard($guard)->guest()) {
             return response('Unauthorized.', 401);
         }
 
-        return $next($request);
+        return $next($request);*/
     }
 }
