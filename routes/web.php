@@ -26,6 +26,8 @@ $router->get('/facebook', 'FacebookAuthController@facebookLogin');
 $router->get('/facebook/token/fb-callback', 'FacebookAuthController@facebookCallback');
 $router->get('/facebook/profile', 'FacebookAuthController@userProfile');
 
+$router->get('/facebook/me', 'FacebookAuthController@my');
+
 $router->get('/gallery/all', ['middleware' => 'auth', 'uses' => 'GalleryController@index']);
 
 /*

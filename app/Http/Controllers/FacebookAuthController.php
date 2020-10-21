@@ -22,7 +22,7 @@ class FacebookAuthController extends Controller
         $helper = $fb->getRedirectLoginHelper();
 
         $permissions = ['email']; // Optional permissions
-        $loginUrl = $helper->getLoginUrl('http://localhost/bart.sk/public/facebook/profile', $permissions);
+        $loginUrl = $helper->getLoginUrl('facebook/token/fb-callback', $permissions);
 
         echo '<a href="' . $loginUrl . '">Log in with Facebook!</a>';
 
@@ -49,6 +49,28 @@ class FacebookAuthController extends Controller
         echo 'Name: ' . $user['name'];
         // OR
         // echo 'Name: ' . $user->getName();
+    }
+
+    public function my(){
+        $fb = $this->fbCredentials();
+
+        try {
+            // Returns a `FacebookFacebookResponse` object
+            $response = $fb->get(
+                '1053174974861205',
+                'EAAFtk2AnBLwBAMM8ih5K6H5K1yTNE0Vkdpx8f2ShTvyxMFNoMc6eanTEfFZAnM3iZBJAdPJLjZBIZAvUmRXBQudCKHZBkxXiv9aYiIqk9HiUaMo7t8WmPfppeDjjmeXy5b9s8fsSmbjXZCVvjsoCIHb0jOlcf62vMtrczO2pfNFK9ZCJcJDILgWUciw0zycQTzR7z2kZAcadYAZDZD'
+            );
+        } catch(FacebookExceptionsFacebookResponseException $e) {
+            echo 'Graph returned an error: ' . $e->getMessage();
+            exit;
+        } catch(FacebookExceptionsFacebookSDKException $e) {
+            echo 'Facebook SDK returned an error: ' . $e->getMessage();
+            exit;
+        }
+        $graphNode = $response->getGraphNode();
+        //return response()->json($graphNode['id']);
+        echo $graphNode;
+
     }
 
     public function facebookCallback(){
@@ -118,8 +140,8 @@ class FacebookAuthController extends Controller
 
     private function fbCredentials(){
         return $fb = new Facebook\Facebook([
-            'app_id' => 'appid',
-            'app_secret' => 'appsecret',
+            'app_id' => '1053174974861205',
+            'app_secret' => '0e083b427faffaa6596d2df3893b42ab',
             'default_graph_version' => 'v2.10',
         ]);
     }
