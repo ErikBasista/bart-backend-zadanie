@@ -17,21 +17,6 @@ $router->get('/', function () use ($router) {
 
 /*
 |--------------------------------------------------------------------------
-| testovací route pre FACEBOOK Auth
-|--------------------------------------------------------------------------
-| Oficiálna Dokumentácia: https://github.com/facebookarchive/php-graph-sdk/tree/master/docs
-|
-*/
-$router->get('/facebook', 'FacebookAuthController@facebookLogin');
-$router->get('/facebook/token/fb-callback', 'FacebookAuthController@facebookCallback');
-$router->get('/facebook/profile', 'FacebookAuthController@userProfile');
-
-$router->get('/facebook/me', 'FacebookAuthController@my');
-
-$router->get('/gallery/all', ['middleware' => 'auth', 'uses' => 'GalleryController@index']);
-
-/*
-|--------------------------------------------------------------------------
 | Praca s galeriou
 |--------------------------------------------------------------------------
 */
@@ -51,3 +36,18 @@ $router->post('/gallery/{path}', 'GalleryController@upload');   // Upload obráz
 */
 // /gallery
 $router->get('/images/{w}x{h}/{path}/{image}', 'ImageController@render'); // Vygenerovanie náhľadového obrázku
+
+/*
+|--------------------------------------------------------------------------
+| testovací route pre FACEBOOK O-Auth2
+|--------------------------------------------------------------------------
+| Oficiálna Dokumentácia: https://github.com/facebookarchive/php-graph-sdk/tree/master/docs
+|
+*/
+$router->get('/facebook', 'FacebookAuthController@facebookLogin');
+$router->get('/facebook/token/fb-callback', 'FacebookAuthController@facebookCallback');
+$router->get('/facebook/profile', 'FacebookAuthController@userProfile');
+
+$router->get('/facebook/me', 'FacebookAuthController@my');
+
+$router->get('/gallery/all', ['middleware' => 'auth', 'uses' => 'GalleryController@index']);

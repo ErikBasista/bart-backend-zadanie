@@ -38,7 +38,7 @@ class Authenticate
     {
         // TESTOVACI SEGMENT. PO NEUSPECHU VYMAZAT
         $fb = new Facebook\Facebook([
-            'app_id' => '401954717500604',
+            'app_id' => '1053174974861205',
             'app_secret' => 'token',
             'default_graph_version' => 'v2.10',
         ]);
