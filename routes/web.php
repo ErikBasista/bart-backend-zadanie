@@ -29,6 +29,9 @@ $router->get('/gallery/{path}', 'GalleryController@show');      // Ukáže konkr
 $router->delete('/gallery/{path}', 'GalleryController@delete'); // Vymazanie zvolenej galérie, alebo obrázku
 $router->post('/gallery/{path}', 'GalleryController@upload');   // Upload obrázku do zvolenej galérie
 
+// Test
+$router->get('/gallery/image', ['middleware' => 'auth', 'uses' => 'GalleryController@index']); // Upload obrázku cez FB Oauth2
+
 /*
 |--------------------------------------------------------------------------
 | Praca s obrazkami
@@ -47,7 +50,4 @@ $router->get('/images/{w}x{h}/{path}/{image}', 'ImageController@render'); // Vyg
 $router->get('/facebook', 'FacebookAuthController@facebookLogin');
 $router->get('/facebook/token/fb-callback', 'FacebookAuthController@facebookCallback');
 $router->get('/facebook/profile', 'FacebookAuthController@userProfile');
-
 $router->get('/facebook/me', 'FacebookAuthController@my');
-
-$router->get('/gallery/all', ['middleware' => 'auth', 'uses' => 'GalleryController@index']);
